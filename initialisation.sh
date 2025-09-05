@@ -48,6 +48,7 @@ check_directory "$BACKEND_DIR"
 cd "$BACKEND_DIR" || exit 1
 python3 -m venv .venv
 .venv/bin/pip install --upgrade pip && .venv/bin/pip install Django django-cors-headers djangorestframework djangorestframework-simplejwt python-decouple && .venv/bin/django-admin startproject config .
+.venv/bin/pip freeze > requirements.txt # Create requirements.txt
 
 # Create Django api and users apps
 echo "Creating Django apps..."
@@ -151,33 +152,58 @@ EOF
 # Return to project root
 cd "$PROJECT_DIR" || exit 1
 
-# Create a README file
+# Replace the README file with a template README file
+echo "Creating README.md..."
+rm README.md || true # Remove existing README.md if any to avoid conflicts
 cat > README.md << 'EOF'
 # Django-React Template
-This is a template project that sets up a Django backend with a React frontend. It includes configurations for CORS, JWT authentication, and environment variable management.
-## Backend
-- Django
-- Django REST Framework
-- django-cors-headers
-- djangorestframework-simplejwt
-- python-decouple
-## Frontend
-- React (Vite)
-- Axios
-- ESLint
-## Setup Instructions
-1. Clone the repository.
-2. Run the `initialisation.sh` script to set up the environment.
-3. Start the Django development server:
-   ```bash
-   cd backend
-   .venv/bin/python manage.py runserver
-   ```
-4. Start the React development server:
-   ```bash
-   cd frontend
-   npm run dev
-   ```
+This is a template project that sets up a web application with a Django backend and a React frontend. The backend is configured with Django REST Framework, CORS headers, JWT authentication, and environment variable management using python-decouple. The frontend is set up with React (using Vite), Axios for API calls, and ESLint for code quality.
+## Project Structure
+- `backend/`: Contains the Django backend code.
+- `frontend/`: Contains the React frontend code.
+## Getting Started
+### Setup Backend
+1. Navigate to the backend directory:
+    ```bash
+    cd backend
+    ```
+2. Create and activate a virtual environment:
+    ```bash
+    python3 -m venv .venv
+    source .venv/bin/activate
+    ```
+3. Install the required Python packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4. Apply migrations:
+    ```bash
+    python manage.py migrate
+    ```
+5. Create a superuser:
+    ```bash
+    python manage.py createsuperuser
+    ```
+6. Run the development server:
+    ```bash
+    python manage.py runserver
+    ```
+### Setup Frontend
+1. Navigate to the frontend directory:
+    ```bash
+    cd ../frontend
+    ```
+2. Install the required npm packages:
+    ```bash
+    npm install
+    ```
+3. Run the development server:
+    ```bash
+    npm run dev
+    ``` 
+### Accessing the Application
+- Backend: Open your browser and go to `http://localhost:8000/admin` to access the Django admin panel.
+- Frontend: Open your browser and go to `http://localhost:5173` to access the React application.
 EOF
 
 # Create .gitignore file for Django and React
