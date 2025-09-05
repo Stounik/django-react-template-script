@@ -53,9 +53,11 @@ python3 -m venv .venv
 # Create Django api and users apps
 echo "Creating Django apps..."
 mkdir -p apps
-touch apps/__init__.py
-.venv/bin/python manage.py startapp api apps/api
-.venv/bin/python manage.py startapp users apps/users
+cd apps || exit 1
+touch __init__.py
+../.venv/bin/django-admin startapp api
+../.venv/bin/django-admin startapp users
+cd "$BACKEND_DIR" || exit 1
 
 # Create .env file with environment variables
 echo "Creating .env file..."
@@ -131,6 +133,7 @@ EOF
 echo "Setting up frontend..."
 check_directory "$FRONTEND_DIR"
 cd "$FRONTEND_DIR" || exit 1
+mv README.md README_FRONTEND.md || true # Rename existing README.md if any to avoid conflicts
 rm .gitignore || true # Remove existing .gitignore if any to avoid conflicts
 
 npm create vite@latest ./ -- --template react -y
