@@ -1,5 +1,5 @@
 # Django-React Template
-This is a template project that sets up a Django backend with a React frontend. It includes configurations for CORS, JWT authentication, and environment variable management.
+This is a simply a script that sets up a template full-stack project with a Django backend a React frontend. It includes configurations for CORS, JWT authentication, and environment variable management.
 ## Backend
 - Django
 - Django REST Framework
